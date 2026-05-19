@@ -1,0 +1,35 @@
+{% extends "core/base.html" %}
+{% block title %}All Restaurants | RMS{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem;">
+  <h1 style="margin:0;">All Restaurants</h1>
+  <a href="{% url 'core:restaurant_create' %}" class="btn btn-primary">+ Add Restaurant</a>
+</div>
+
+{% if restaurants %}
+  {% for r in restaurants %}
+  <div class="card" style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+    <div style="flex:1;">
+      <h2>
+        <a href="{% url 'core:restaurant_detail' r.pk %}" style="text-decoration:none; color:#1a1a2e;">
+          {{ r.name }}
+        </a>
+      </h2>
+      <span class="stars">{{ r.get_star_display }}</span>
+      <p class="meta" style="margin-top:.4rem;">📍 {{ r.address }}</p>
+      <p class="meta">🍴 {{ r.menu_items.count }} menu item{{ r.menu_items.count|pluralize }}</p>
+    </div>
+    <a href="{% url 'core:restaurant_detail' r.pk %}" class="btn btn-secondary" style="white-space:nowrap;">
+      View Menu →
+    </a>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="card" style="text-align:center; padding:3rem 1.5rem; color:#888;">
+    <p style="font-size:3rem; margin-bottom:1rem;">🍴</p>
+    <p style="font-size:1.1rem; margin-bottom:1.5rem;">No restaurants yet. Be the first to add one!</p>
+    <a href="{% url 'core:restaurant_create' %}" class="btn btn-primary">+ Add Restaurant</a>
+  </div>
+{% endif %}
+{% endblock %}
